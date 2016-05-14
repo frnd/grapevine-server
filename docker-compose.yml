@@ -1,0 +1,35 @@
+chat4all-mongodata:
+  image: mongo
+  volumes:
+    - /data/db
+  command: --break-mongo
+chat4all-mongo:
+  image: mongo
+  volumes_from:
+    - chat4all-mongodata
+  command: --smallfiles
+
+chat4all-rabbit:
+  image: rabbitmq:management
+  environment:
+    - ERLANG_COOKIE=abcdefg
+  ports:
+    - "8081:15672"
+
+chat4all-mongo-express:
+  image: mongo-express
+  links:
+     - chat4all-mongo:mongo
+  ports:
+    - "8082:8081"
+
+chat4all-api:
+  image: frnd/chat4all
+  environment:
+    spring.data.mongodb.host: mongodb
+    debug: 'false'
+  links:
+   - chat4all-mongo:mongodb
+   - chat4all-rabbit:rabbit
+  ports:
+   - "8080:8080"

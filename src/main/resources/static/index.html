@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Hello WebSocket</title>
+    <script src="sockjs.js"></script>
+    <script src="stomp.js"></script>
+    <script type="text/javascript">
+        var stompClient = null;
+
+        function setConnected(connected) {
+            document.getElementById('connect').disabled = connected;
+            document.getElementById('resource').disabled = connected;
+            document.getElementById('disconnect').disabled = !connected;
+            document.getElementById('conversationDiv').style.visibility = connected ? 'visible' : 'hidden';
+            document.getElementById('response').innerHTML = '';
+        }
+
+        function connect() {
+            var id = document.getElementById('resource').value;
+            var socket = new SockJS('/stomp');
+            stompClient = Stomp.over(socket);
+            stompClient.connect({}, function(frame) {
+                setConnected(true);
+                console.log('Connected: ' + frame);
+                stompClient.subscribe('/messages/'+ id, function(msg){
+                    showMessage(JSON.parse(msg.body));
+                });
+            });
+        }
+
+        function disconnect() {
+            if (stompClient != null) {
+                stompClient.disconnect();
+            }
+            setConnected(false);
+            console.log("Disconnected");
+        }
+
+        function send() {
+            var id = document.getElementById('resource').value;
+            var name = document.getElementById('name').value;
+            var text = document.getElementById('txt').value;
+            var data = { 'displayName': name, text: text, sendDate: new Date()};
+            stompClient.send('/messages/' + id, {}, JSON.stringify(data));
+        }
+
+        function showMessage(message) {
+            var response = document.getElementById('response');
+            var p = document.createElement('p');
+            p.style.wordWrap = 'break-word';
+            p.appendChild(document.createTextNode(JSON.stringify(message)));
+            response.appendChild(p);
+        }
+    </script>
+</head>
+<body onload="disconnect()">
+<noscript><h2 style="color: #ff0000">Seems your browser doesn't support Javascript! Websocket relies on Javascript being enabled. Please enable
+    Javascript and reload this page!</h2></noscript>
+<div>
+    <div>
+        <input id="resource" type="text">
+        <button id="connect" onclick="connect();">Connect</button>
+        <button id="disconnect" disabled="disabled" onclick="disconnect();">Disconnect</button>
+    </div>
+    <div id="conversationDiv">
+        <label>What is your name?</label><input type="text" id="name" />
+        <label>Text</label><input type="text" id="txt" />
+        <button id="send" onclick="send();">Send</button>
+        <p id="response"></p>
+    </div>
+</div>
+</body>
+</html>
