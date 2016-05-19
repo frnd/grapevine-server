@@ -1,4 +1,4 @@
-# ROADMAP
+# ROAD MAP
 
  - Data model validations.
  - Latest messages in resource object.
