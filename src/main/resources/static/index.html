@@ -17,12 +17,12 @@
 
         function connect() {
             var id = document.getElementById('resource').value;
-            var socket = new SockJS('/stomp');
+            var socket = new SockJS('/ws');
             stompClient = Stomp.over(socket);
             stompClient.connect({}, function(frame) {
                 setConnected(true);
                 console.log('Connected: ' + frame);
-                stompClient.subscribe('/messages/'+ id, function(msg){
+                stompClient.subscribe('/topic/messages/'+ id, function(msg){
                     showMessage(JSON.parse(msg.body));
                 });
             });
@@ -41,7 +41,7 @@
             var name = document.getElementById('name').value;
             var text = document.getElementById('txt').value;
             var data = { 'displayName': name, text: text, sendDate: new Date()};
-            stompClient.send('/messages/' + id, {}, JSON.stringify(data));
+            stompClient.send('/ws/messages/' + id, {}, JSON.stringify(data));
         }
 
         function showMessage(message) {

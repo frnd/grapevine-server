@@ -53,7 +53,9 @@ public class ResourceController {
     @RequestMapping(value = "/{id}/messages", method = RequestMethod.GET)
     public Page<Message> getAllMessagesByResource(@PathVariable("id") Resource resource, Pageable pageable){
 
-        Page<Message> allByResource = messagesRepository.findAllByResource(resource, new PageRequest(0, 20));
+        PageRequest pageRequest = new PageRequest(pageable.getPageNumber(), pageable.getPageSize());
+
+        Page<Message> allByResource = messagesRepository.findAllByResource(resource, pageRequest);
 
         return allByResource;
     }
