@@ -1,10 +1,13 @@
 package es.frnd.model;
 
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by fernando on 27/04/16.
@@ -16,27 +19,51 @@ public class Message {
     @Id
     private String id;
 
-    private String displayName;
+    /**
+     * The resource uri.
+     */
+    @Indexed(unique = true)
+    private String uri;
 
+    /**
+     * User that posted the message
+     */
+    private String user;
+
+    /**
+     * Message text
+     */
     private String text;
 
+    /**
+     * List of tags for the message
+     */
+    @Indexed
+    private List<String> tags;
+
+    /**
+     * Parent message
+     */
+    @DBRef(lazy = true)
+    private Message parent;
+
+    /**
+     * Latest messages on this message
+     */
+    private List<Message> latest = new ArrayList<>();
+
+    /**
+     * Date the message was sent on user timezone.
+     */
     private Date sentDate;
 
+    /**
+     * Server date when teh message was processed.
+     */
     private Date serverDate;
 
-    @DBRef(lazy = true)
-    private Resource resource;
-
-    public Message(){
+    public Message() {
         serverDate = new Date();
-    }
-
-    public Message(String displayName, String text, Date sentDate, Resource resource) {
-        this();
-        this.displayName = displayName;
-        this.text = text;
-        this.sentDate = sentDate;
-        this.resource = resource;
     }
 
     public String getId() {
@@ -47,12 +74,20 @@ public class Message {
         this.id = id;
     }
 
-    public String getDisplayName() {
-        return displayName;
+    public String getUri() {
+        return uri;
     }
 
-    public void setDisplayName(String displayName) {
-        this.displayName = displayName;
+    public void setUri(String uri) {
+        this.uri = uri;
+    }
+
+    public String getUser() {
+        return user;
+    }
+
+    public void setUser(String user) {
+        this.user = user;
     }
 
     public String getText() {
@@ -63,34 +98,42 @@ public class Message {
         this.text = text;
     }
 
-    public Date getSentDate() {
+    public List<String> getTags() {
+        return tags;
+    }
+
+    public void setTags(List<String> tags) {
+        this.tags = tags;
+    }
+
+    public Message getParent() {
+        return parent;
+    }
+
+    public void setParent(Message parent) {
+        this.parent = parent;
+    }
+
+    public List<Message> getLatest() {
+        return latest;
+    }
+
+    public void setLatest(List<Message> latest) {
+        this.latest = latest;
+    }
+
+    public Date getDate() {
         return sentDate;
     }
 
-    public void setSentDate(Date sentDate) {
-        this.sentDate = sentDate;
-    }
-
-    public Date getServerDate() {
-        return serverDate;
-    }
-
-    public void setServerDate(Date serverDate) {
-        this.serverDate = serverDate;
-    }
-
-    public Resource getResource() {
-        return resource;
-    }
-
-    public void setResource(Resource resource) {
-        this.resource = resource;
+    public void setDate(Date date) {
+        this.sentDate = date;
     }
 
     @Override
     public String toString() {
         final StringBuilder sb = new StringBuilder("Message{");
-        sb.append("displayName='").append(displayName).append('\'');
+        sb.append("displayName='").append(user).append('\'');
         sb.append(", text='").append(text).append('\'');
         sb.append('}');
         return sb.toString();

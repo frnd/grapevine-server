@@ -1,18 +1,11 @@
 package es.frnd;
 
-import es.frnd.repository.ResourceRepository;
-import es.frnd.rest.ResourceConverter;
-import es.frnd.rest.ResourceFormatter;
+import es.frnd.repository.MessageRepository;
+import es.frnd.rest.MessageFormatter;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.convert.ConversionService;
 import org.springframework.format.FormatterRegistry;
-import org.springframework.http.converter.HttpMessageConverter;
-import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
-
-import java.util.List;
 
 /**
  * Created by fernando on 10/05/16.
@@ -21,11 +14,10 @@ import java.util.List;
 class WebMvcContext extends WebMvcConfigurerAdapter {
 
     @Autowired
-    private ResourceRepository resourceRepository;
+    private MessageRepository repository;
 
-    public void addFormatters(FormatterRegistry registry){
-        registry.addFormatter(new ResourceFormatter(resourceRepository));
-        registry.addConverter(new ResourceConverter(resourceRepository));
+    public void addFormatters(FormatterRegistry registry) {
+        registry.addFormatter(new MessageFormatter(repository));
     }
 
 }

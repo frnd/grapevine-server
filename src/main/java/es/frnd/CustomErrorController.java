@@ -16,7 +16,6 @@ import java.util.Map;
 /**
  * Based on the helpful answer at http://stackoverflow.com/q/25356781/56285,
  * with error details in response body added.
- *
  */
 @RestController
 public class CustomErrorController implements ErrorController {
