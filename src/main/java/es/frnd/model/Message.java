@@ -1,11 +1,11 @@
 package es.frnd.model;
 
 import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.PersistenceConstructor;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -50,7 +50,7 @@ public class Message {
     /**
      * Latest messages on this message this serve as a cache for fast loading of replies.
      */
-    private List<Message> latest = new ArrayList<>();
+    private List<Message> latest;
 
     /**
      * Date the message was sent on user timezone.
@@ -62,8 +62,8 @@ public class Message {
      */
     private Date serverDate;
 
+    @PersistenceConstructor
     public Message() {
-        serverDate = new Date();
     }
 
     public String getId() {
