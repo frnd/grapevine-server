@@ -31,8 +31,7 @@ public class MessageController {
     @RequestMapping(value = "", method = RequestMethod.GET)
     public Page<Message> getAll(@PathParam("page") Integer page, @PathParam("size") Integer size) {
         PageRequest pageRequest = new PageRequest(page, page, new Sort("serverDate"));
-        Page<Message> resources = messageRepository.findByParentIsNull(pageRequest);
-        return resources;
+        return messageRepository.findByParentIsNull(pageRequest);
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
@@ -52,12 +51,11 @@ public class MessageController {
     @RequestMapping(value = "/{id}/responses", method = RequestMethod.GET)
     public Page<Message> getAllMessagesByResource(@PathVariable("id") Message parent, @PathParam("page") Integer page, @PathParam("size") Integer size) {
         PageRequest pageRequest = new PageRequest(page, page, new Sort("serverDate"));
-        Page<Message> allByResource = messageRepository.findAllByParent(parent, pageRequest);
 
-        return allByResource;
+        return messageRepository.findAllByParent(parent, pageRequest);
     }
 
-    @RequestMapping(value = "/{id}/subscriptors", method = RequestMethod.POST)
+    @RequestMapping(value = "/{id}/subscriptions", method = RequestMethod.POST)
     public Message post(@PathVariable("id") Message resource, String deviceId) {
 
         //TODO: subscribe to a topic in GCM and create a collection to trace subscriptions.
