@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.websocket.server.PathParam;
 
 /**
- * Created by fernando on 1/05/16.
+ * Messages controller
  */
 @RestController
 @RequestMapping("/messages")

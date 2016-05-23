@@ -8,7 +8,7 @@ import java.text.ParseException;
 import java.util.Locale;
 
 /**
- * Created by fernando on 10/05/16.
+ * Loads a messages form its ID
  */
 public class MessageFormatter implements Formatter<Message> {
 

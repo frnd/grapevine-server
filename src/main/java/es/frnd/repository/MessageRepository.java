@@ -7,7 +7,7 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 
 /**
- * Created by fernando on 27/04/16.
+ * Repository for messages
  */
 @Repository
 public interface MessageRepository extends MongoRepository<Message, String> {

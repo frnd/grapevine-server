@@ -10,7 +10,7 @@ import java.util.Date;
 import java.util.List;
 
 /**
- * Created by fernando on 27/04/16.
+ * A messaqe on the platform. It can be a top level message where parent is null or a reply to another message.
  */
 @Document
 @SuppressWarnings("unused")
@@ -48,7 +48,7 @@ public class Message {
     private Message parent;
 
     /**
-     * Latest messages on this message
+     * Latest messages on this message this serve as a cache for fast loading of replies.
      */
     private List<Message> latest = new ArrayList<>();
 
