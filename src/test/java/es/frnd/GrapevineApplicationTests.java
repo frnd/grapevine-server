@@ -7,9 +7,9 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@SpringApplicationConfiguration(classes = Chat4allApplication.class)
+@SpringApplicationConfiguration(classes = GrapevineApplication.class)
 @WebAppConfiguration
-public class Chat4allApplicationTests {
+public class GrapevineApplicationTests {
 
 	@Test
 	public void contextLoads() {

@@ -17,4 +17,6 @@ public interface MessageRepository extends MongoRepository<Message, String> {
     Page<Message> findByParentIsNull(Pageable pageable);
 
     Page<Message> findAllByParent(Message resource, Pageable pageRequest);
+
+    Message findByUriAndParentIsNull(String uri);
 }

@@ -40,7 +40,7 @@
             var id = document.getElementById('resource').value;
             var name = document.getElementById('name').value;
             var text = document.getElementById('txt').value;
-            var data = { 'displayName': name, text: text, sendDate: new Date()};
+            var data = { 'user': name, text: text, sendDate: new Date()};
             stompClient.send('/ws/messages/' + id + '/responses', {}, JSON.stringify(data));
         }
 
